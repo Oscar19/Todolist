@@ -1,0 +1,25 @@
+<h1>Añadir Nueva Tarea</h1>
+<form method="post" action="/Todolist/web/tarea/add">
+    <label for="titulo">Título:</label>
+    <input type="text" id="titulo" name="titulo" required><br>
+
+    <label for="descripcion">Descripción:</label>
+    <input type="text" id="descripcion" name="descripcion" required><br>
+
+    <label for="usuario">Usuario:</label>
+    <input type="text" id="usuario" name="usuario" required><br>
+
+    <label for="status">Status:</label>
+    <input type="text" id="status" name="status" required><br>
+
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" name="fecha" required><br>
+
+    <label for="horaInicio">Hora de Inicio:</label>
+    <input type="time" id="horaInicio" name="horaInicio" required><br>
+
+    <label for="horaFin">Hora de Finalización:</label>
+    <input type="time" id="horaFin" name="horaFin" required><br>
+
+    <input type="submit" value="Añadir Tarea">
+</form>

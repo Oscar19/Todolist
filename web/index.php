@@ -12,7 +12,7 @@ define('ROOT_PATH', realpath(dirname(__FILE__) . '/../'));
 define('CMS_PATH', ROOT_PATH . '/lib/base/');
 
 // starts the session
-session_start();
+//session_start();
 
 // includes the system routes. Define your own routes in this file
 include(ROOT_PATH . '/config/routes.php');
@@ -44,5 +44,8 @@ function autoloader($className) {
 // activates the autoloader
 spl_autoload_register('autoloader');
 
+
 $router = new Router();
 $router->execute($routes);
+
+

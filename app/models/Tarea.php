@@ -11,23 +11,25 @@
 
         private $tareaJson;
 
-        public function __construct($tareaJson)
+        public function __construct($tareaJson = null)
         {
-            // no añadimos los otros atributos por que las he hecho publicas
-            // buscamos donde está el archivo
-            $this->tareaJson = __DIR__ . "../../config/Tareas.json";
+           
+            $this->tareaJson = "/opt/lampp/htdocs/Todolist/config/Tareas.json";
             if (!file_exists($this->tareaJson)){
-                //si no existe lo creamos
+               
                 file_put_contents($this->tareaJson, json_encode([]));
             }
 
         }
-        public function getTareas(){
+       public function getTareas(){
             // accedemos a todas las tareas
             return json_decode(file_get_contents($this->tareaJson), true);
         }
+     
+
         public function addTarea($id, $titulo, $descripcion, $usuario, $status, $fecha, $horaInicio, $horaFin){
             $tareas = $this->getTareas();
+            $newId = count($tareas) > 0 ? max(array_column($tareas, 'Id')) + 1 : 1;
 
             $newTarea = [
                 "Id" => $id,
@@ -44,4 +46,3 @@
         }
     }
 
-?>
