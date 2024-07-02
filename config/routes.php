@@ -8,12 +8,13 @@
  * 
  * '/' => 'index#index',
  * '/calendar' => 'calendar#index'
+ * '/test' => 'test#index',
  */
 $routes = array(
-	'/' => 'index#index',
-	'/test' => 'test#index',
+	'/' => 'tarea#index',
 	'/tarea' => 'tarea#index',
-	//'/tarea/add' => 'tarea#add',
-	'/tarea/index' => 'tarea#indexAction' 
+	'/tarea/add' => 'tarea#add',
+	'/tarea/detalle' => 'tarea#detalle',
+	'/tarea/edita' => 'tarea#edita' 
 );
 
