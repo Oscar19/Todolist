@@ -1,32 +1,20 @@
-<?php 
+<?php
+class Tarea extends Model {
+    protected $tareaJson = "/opt/lampp/htdocs/Todolist/config/Tareas.json";
+    protected array $tareas;
 
-class Tarea extends Model{
-    public $id;
-    public $titulo;
-    public $descripcion;
-    public $usuario;
-    public $status;
-    public $fecha;
-    public $horaInicio;
-    public $horaFin;
-
-    private $tareaJson;
-
-    public function __construct()
-    {
-        $this->tareaJson = "/opt/lampp/htdocs/Todolist/config/Tareas.json";
+    public function __construct() {
         if (!file_exists($this->tareaJson)){
             file_put_contents($this->tareaJson, json_encode([]));
         }
+        $this->tareas = json_decode(file_get_contents($this->tareaJson), true);
     }
 
-    public function getTareas(){
-        return json_decode(file_get_contents($this->tareaJson), true);
+    public function getTareas() {
+        return $this->tareas;
     }
 
-    public function addTarea($id, $titulo, $descripcion, $usuario, $status, $fecha, $horaInicio, $horaFin)
-    {
-        $tareas = $this->getTareas();
+    public function addTarea($id, $titulo, $descripcion, $usuario, $status, $fecha, $horaInicio, $horaFin) {
         $newTarea = [
             "Id" => $id,
             "Titulo" => $titulo,
@@ -37,12 +25,14 @@ class Tarea extends Model{
             "Hora_inicio" => $horaInicio,
             "Hora_final" => $horaFin,
         ];
-        $tareas[] = $newTarea;
-        file_put_contents($this->tareaJson, json_encode($tareas));
+        $this->tareas[] = $newTarea;
+        file_put_contents($this->tareaJson, json_encode($this->tareas));
     }
-    public function updateTarea($id, $titulo, $descripcion, $usuario, $status, $fecha, $horaInicio, $horaFin) {
-        $tareas = $this->getTareas();
-        foreach ($tareas as &$tarea) {
+    
+    //foreach ($this->tareas as &$tarea) 
+    // manera más rápida de llegar al id del objeto que estoy editando
+   public function updateTarea($id, $titulo, $descripcion, $usuario, $status, $fecha, $horaInicio, $horaFin) {
+        foreach ($this->tareas as &$tarea) {
             if ($tarea['Id'] == $id) {
                 $tarea['Titulo'] = $titulo;
                 $tarea['Descripcion'] = $descripcion;
@@ -51,10 +41,20 @@ class Tarea extends Model{
                 $tarea['Fecha'] = $fecha;
                 $tarea['Hora_inicio'] = $horaInicio;
                 $tarea['Hora_final'] = $horaFin;
-                break;
+                file_put_contents($this->tareaJson, json_encode($this->tareas));
+                return true; 
             }
         }
-        file_put_contents($this->tareaJson, json_encode($tareas));
+        return false; 
+    }
+
+     public function deleteTarea($id)
+    {
+        $tareas = $this->getTareas();
+        //otra manera de llegar rápido al id del objeto
+        $tareas = array_filter($tareas, function($tarea) use ($id) {
+            return $tarea['Id'] != $id;
+        });
+        file_put_contents($this->tareaJson, json_encode(array_values($tareas)));
     }
 }
-
