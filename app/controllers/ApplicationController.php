@@ -6,5 +6,5 @@
  */
 class ApplicationController extends Controller 
 {
-	//hola
+	
 }
