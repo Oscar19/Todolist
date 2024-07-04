@@ -109,16 +109,16 @@ class TareaController extends ApplicationController
         }
     }
 }
-    public function deleteAction()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'];
-            $tareaModel = new Tarea();
-            $tareaModel->deleteTarea($id);
+public function deleteAction()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['id'];
+        $tareaModel = new Tarea();
+        $tareaModel->deleteTarea($id);
 
-            header('Location: ' . $this->view->baseUrl() . '/tarea');
-            exit();
-        }
+        header('Location: ' . $this->view->baseUrl() . '/tarea');
+        exit();
     }
+}
 }
 

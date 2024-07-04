@@ -57,4 +57,5 @@ class Tarea extends Model {
         });
         file_put_contents($this->tareaJson, json_encode(array_values($tareas)));
     }
+    
 }
