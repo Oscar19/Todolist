@@ -10,6 +10,7 @@
  * '/calendar' => 'calendar#index'
  * '/test' => 'test#index',
  */
+define('TAREAS_JSON_PATH', __DIR__ . '/Tareas.json');
 $routes = array(
     '/' => 'tarea#index',
     '/tarea' => 'tarea#index',

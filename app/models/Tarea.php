@@ -1,9 +1,11 @@
 <?php
 class Tarea extends Model {
-    protected $tareaJson = "/opt/lampp/htdocs/Todolist/config/Tareas.json";
+    //protected $tareaJson = "/opt/lampp/htdocs/Todolist/config/Tareas.json";
+    protected $tareaJson;
     protected array $tareas;
 
     public function __construct() {
+        $this->tareaJson = TAREAS_JSON_PATH;
         if (!file_exists($this->tareaJson)){
             file_put_contents($this->tareaJson, json_encode([]));
         }
