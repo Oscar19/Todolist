@@ -5,7 +5,7 @@ class Tarea extends Model {
     protected array $tareas;
 
     public function __construct() {
-        //$this->tareaJson = TAREAS_JSON_PATH;
+        $this->tareaJson = TAREAS_JSON_PATH;
         if (!file_exists($this->tareaJson)){
             file_put_contents($this->tareaJson, json_encode([]));
         }
@@ -17,6 +17,9 @@ class Tarea extends Model {
     }
 
     public function addTarea($id, $titulo, $descripcion, $usuario, $status, $fecha, $horaInicio, $horaFin) {
+        if (strtotime($horaFin) <= strtotime($horaInicio)) {
+            throw new Exception("No puedes acabar antes de empezar.");
+        }
         $newTarea = [
             "Id" => $id,
             "Titulo" => $titulo,
@@ -29,11 +32,15 @@ class Tarea extends Model {
         ];
         $this->tareas[] = $newTarea;
         file_put_contents($this->tareaJson, json_encode($this->tareas));
+        
     }
     
     //foreach ($this->tareas as &$tarea) 
     // manera más rápida de llegar al id del objeto que estoy editando
    public function updateTarea($id, $titulo, $descripcion, $usuario, $status, $fecha, $horaInicio, $horaFin) {
+        if (strtotime($horaFin) <= strtotime($horaInicio)) {
+            throw new Exception("No puedes acabar antes de empezar.");
+        }
         foreach ($this->tareas as &$tarea) {
             if ($tarea['Id'] == $id) {
                 $tarea['Titulo'] = $titulo;
@@ -44,6 +51,11 @@ class Tarea extends Model {
                 $tarea['Hora_inicio'] = $horaInicio;
                 $tarea['Hora_final'] = $horaFin;
                 file_put_contents($this->tareaJson, json_encode($this->tareas));
+                if (file_exists($this->tareaJson)) {
+                    error_log("Archivo actualizado correctamente: " . file_get_contents($this->tareaJson));
+                } else {
+                    error_log("Error: No se pudo escribir en el archivo.");
+                }
                 return true; 
             }
         }
